@@ -59,7 +59,7 @@ module.exports = {
     extend(config, ctx) {}
   },
   server: {
-    port: 3002, // default: 3000
+    port: 3001, // default: 3000
     host: '0.0.0.0' // default: localhost,
   }
 }
