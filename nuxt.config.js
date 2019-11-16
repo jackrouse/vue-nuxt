@@ -47,7 +47,12 @@ module.exports = {
    ** Axios module configuration
    ** See https://axios.nuxtjs.org/options
    */
-  axios: {},
+  axios: {
+    proxy: true // Can be also an object with default options
+  },
+  proxy: {
+    '/hero/': 'http://localhost:3000'
+  },
   /*
    ** Build configuration
    */

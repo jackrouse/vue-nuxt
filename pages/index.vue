@@ -8,6 +8,7 @@
       <h2 class="subtitle">
         My legendary Nuxt.js project
       </h2>
+      <nuxt-link to="/about">about</nuxt-link>
       <div v-for="item in res.heroList" :key="item._id">
         <div>{{ item.heroName }}</div>
         <div>{{ item.heroSex }}</div>
@@ -39,7 +40,7 @@ export default {
     Logo
   },
   async asyncData({ $axios }) {
-    const res = await $axios.$post('http://localhost:3000/hero/getHeroList')
+    const res = await $axios.$post('/hero/getHeroList')
     return { res }
   }
 
