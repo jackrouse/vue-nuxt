@@ -8,6 +8,13 @@
       <h2 class="subtitle">
         My legendary Nuxt.js project
       </h2>
+      <div v-for="item in res.heroList" :key="item._id">
+        <div>{{ item.heroName }}</div>
+        <div>{{ item.heroSex }}</div>
+        <div>{{ item.favourite }}</div>
+        <div>{{ item.age }}</div>
+        <img v-for="(i, index) in item.imgArr" :src="i" :key="index" alt="" />
+      </div>
       <div class="links">
         <a href="https://nuxtjs.org/" target="_blank" class="button--green">
           Documentation
@@ -30,7 +37,17 @@ import Logo from '~/components/Logo.vue'
 export default {
   components: {
     Logo
+  },
+  async asyncData({ $axios }) {
+    const res = await $axios.$post('http://localhost:3000/hero/getHeroList')
+    return { res }
   }
+
+  // asyncData(params) {
+  //   return {
+  //     name: 123
+  //   }
+  // }
 }
 </script>
 
