@@ -1,25 +1,13 @@
 <template>
   <el-container class="main-container">
-    <main-header />
     <nuxt />
-    <el-footer class="main-footer">
-      <div class="bg"></div>
-      <!-- <div class="bg2">
-        <div class="mark"></div>
-      </div> -->
-    </el-footer>
-    <back-top />
   </el-container>
 </template>
 <script>
-import backTop from '~/components/backTop.vue'
-import mainHeader from '~/components/mainHeader.vue'
 // import mainAside from '~/components/mainAside.vue'
 export default {
   components: {
-    mainHeader,
     // mainAside,
-    backTop
   }
 }
 </script>

@@ -19,11 +19,16 @@ module.exports = {
   /*
    ** Customize the progress-bar color
    */
-  loading: { color: '#fff' },
+  loading: '~/components/loading.vue',
   /*
    ** Global CSS
    */
-  css: ['element-ui/lib/theme-chalk/index.css'],
+  css: [
+    'normalize.css/normalize.css', // a modern alternative to CSS resets
+    'element-ui/lib/theme-chalk/index.css',
+    'element-ui/lib/theme-chalk/display.css',
+    '~assets/styles/index.scss'
+  ],
   /*
    ** Plugins to load before mounting the App
    */
@@ -41,8 +46,43 @@ module.exports = {
   modules: [
     // Doc: https://axios.nuxtjs.org/usage
     '@nuxtjs/axios',
-    '@nuxtjs/pwa'
+    '@nuxtjs/auth',
+    '@nuxtjs/pwa',
+    '@nuxtjs/svg-sprite',
+    ['vue-scrollto/nuxt', { duration: 300 }]
   ],
+  auth: {
+    // token: {},
+    // cookie: {
+    //   options: {
+    //     path: '/'
+    //   }
+    // },
+    resetOnError: true,
+    scopeKey: 'roles',
+    localStorage: false,
+    redirect: {
+      login: '/user/login',
+      logout: '/',
+      callback: '/user/login',
+      home: '/'
+    },
+    strategies: {
+      local: {
+        endpoints: {
+          login: {
+            url: '/api/user/login',
+            method: 'post',
+            propertyName: 'data.token'
+          },
+          logout: { url: '/api/user/logout', method: 'post' },
+          user: { url: '/api/user/info', method: 'get', propertyName: 'data' }
+        },
+        // tokenRequired: false,
+        tokenType: false
+      }
+    }
+  },
   /*
    ** Axios module configuration
    ** See https://axios.nuxtjs.org/options
@@ -51,7 +91,14 @@ module.exports = {
     proxy: true // Can be also an object with default options
   },
   proxy: {
-    '/hero/': 'http://localhost:3000'
+    // '/hero/': 'http://localhost:3000',
+    '/api/': {
+      target: 'http://localhost:3000',
+      changeOrigin: true,
+      pathRewrite: {
+        '^/api/': ''
+      }
+    }
   },
   /*
    ** Build configuration
@@ -61,10 +108,25 @@ module.exports = {
     /*
      ** You can extend webpack config here
      */
-    extend(config, ctx) {}
+    extend(config, ctx) {},
+    postcss: {
+      // 添加插件名称作为键，参数作为值
+      // 使用npm或yarn安装它们
+      plugins: {
+        // 通过传递 false 来禁用插件
+        // 'postcss-url': false,
+      },
+      preset: {
+        // 更改postcss-preset-env 设置
+        autoprefixer: {
+          // grid: true
+        }
+      }
+    }
   },
   server: {
     port: 3001, // default: 3000
     host: '0.0.0.0' // default: localhost,
   }
+  // serverMiddleware: [{ path: '/api', handler: '~/server/routers/index.js' }]
 }
