@@ -102,13 +102,13 @@ module.exports = {
   },
   proxy: {
     // '/hero/': 'http://localhost:3000',
-    '/api/upload': {
-      target: 'http://api.zhansha.love',
-      changeOrigin: true,
-      pathRewrite: {
-        '^/api/': ''
-      }
-    },
+    // '/api/upload': {
+    //   target: 'http://api.zhansha.love',
+    //   changeOrigin: true,
+    //   pathRewrite: {
+    //     '^/api/': ''
+    //   }
+    // },
     '/api/': {
       target: 'http://localhost:3000',
       changeOrigin: true,
