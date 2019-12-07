@@ -1,5 +1,10 @@
 module.exports = {
   mode: 'universal',
+  transition: {
+    name: 'page',
+    mode: 'out-in'
+  },
+  layoutTransition: 'layout',
   /*
    ** Headers of the page
    */
@@ -32,7 +37,7 @@ module.exports = {
   /*
    ** Plugins to load before mounting the App
    */
-  plugins: ['@/plugins/element-ui'],
+  plugins: ['@/plugins/element-ui', '@/plugins/axios', '@/plugins/init'],
   /*
    ** Nuxt.js dev-modules
    */
@@ -49,8 +54,12 @@ module.exports = {
     '@nuxtjs/auth',
     '@nuxtjs/pwa',
     '@nuxtjs/svg-sprite',
+    '@nuxtjs/style-resources',
     ['vue-scrollto/nuxt', { duration: 300 }]
   ],
+  styleResources: {
+    scss: './assets/styles/mixins/index.scss'
+  },
   auth: {
     // token: {},
     // cookie: {
@@ -58,6 +67,7 @@ module.exports = {
     //     path: '/'
     //   }
     // },
+    plugins: [{ src: '@/plugins/axios', ssr: true }, '@/plugins/auth.js'],
     resetOnError: true,
     scopeKey: 'roles',
     localStorage: false,
@@ -92,6 +102,13 @@ module.exports = {
   },
   proxy: {
     // '/hero/': 'http://localhost:3000',
+    '/api/upload': {
+      target: 'http://api.zhansha.love',
+      changeOrigin: true,
+      pathRewrite: {
+        '^/api/': ''
+      }
+    },
     '/api/': {
       target: 'http://localhost:3000',
       changeOrigin: true,

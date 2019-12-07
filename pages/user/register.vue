@@ -5,11 +5,12 @@
       <el-row class="form-wrap" type="flex" justify="center">
         <el-col :xs="22" :sm="12" :md="10" :lg="8" :xl="6">
           <el-card>
-            <h2 align="center">注册</h2>
+            <h2 class="title">注册</h2>
             <el-form
               ref="form"
               :model="form"
               :rules="rules"
+              label-position="left"
               status-icon
               label-width="80px"
             >
@@ -28,17 +29,31 @@
               </el-form-item>
               <el-form-item label="确认密码" prop="checkPass">
                 <el-input
+                  @keyup.enter.native="submitForm('form')"
                   v-model.trim="form.checkPass"
                   type="password"
                   autocomplete="off"
                 ></el-input>
               </el-form-item>
 
-              <div align="center">
-                <el-button @click.prevent="submitForm('form')" type="primary"
-                  >提交</el-button
+              <div class="flex-center">
+                <el-button
+                  @click.prevent="submitForm('form')"
+                  round
+                  plain
+                  type="primary"
+                  >注册</el-button
                 >
-                <el-button @click.prevent="resetForm('form')">重置</el-button>
+                <el-button @click.prevent="resetForm('form')" round plain
+                  >重置</el-button
+                >
+
+                <el-button
+                  @click.prevent="$router.push('/user/login')"
+                  class="align-right"
+                  type="text"
+                  >去登录</el-button
+                >
               </div>
             </el-form>
           </el-card>
@@ -116,7 +131,7 @@ export default {
             })
             .then((res) => {
               if (res.status === 'success') {
-                this.$router.push('/user/login')
+                this.$router.replace('/user/login')
               }
               console.log(res)
             })
@@ -144,6 +159,10 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+.title {
+  font-size: $size1;
+  text-align: center;
+}
 .bg-main {
   position: absolute;
   left: 0;

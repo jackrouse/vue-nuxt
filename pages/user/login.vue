@@ -5,13 +5,14 @@
       <el-row class="form-wrap" type="flex" justify="center">
         <el-col :xs="22" :sm="12" :md="10" :lg="8" :xl="6">
           <el-card>
-            <h2 align="center">登录</h2>
+            <h2 class="title">登录</h2>
             <el-form
               ref="form"
               :model="form"
               :rules="rules"
               status-icon
-              label-width="80px"
+              label-position="left"
+              label-width="66px"
             >
               <el-form-item label="用户名" prop="username">
                 <el-input
@@ -22,16 +23,30 @@
               <el-form-item label="密码" prop="password">
                 <el-input
                   v-model.trim="form.password"
+                  @keyup.enter.native="submitForm('form')"
                   type="password"
                   autocomplete="off"
                 ></el-input>
               </el-form-item>
 
-              <div align="center">
-                <el-button @click.prevent="submitForm('form')" type="primary"
-                  >提交</el-button
+              <div class="flex-center">
+                <el-button
+                  @click.prevent="submitForm('form')"
+                  type="primary"
+                  round
+                  plain
+                  >登录</el-button
                 >
-                <el-button @click.prevent="resetForm('form')">重置</el-button>
+
+                <el-button @click.prevent="resetForm('form')" round plain
+                  >重置</el-button
+                >
+                <el-button
+                  @click.prevent="$router.push('/user/register')"
+                  class="align-right"
+                  type="text"
+                  >去注册</el-button
+                >
               </div>
             </el-form>
           </el-card>
@@ -43,6 +58,14 @@
 
 <script>
 // import Cookies from 'js-cookie'
+const getOtherQuery = (query) => {
+  return Object.keys(query).reduce((acc, cur) => {
+    if (cur !== 'redirect') {
+      acc[cur] = query[cur]
+    }
+    return acc
+  }, {})
+}
 
 export default {
   layout: 'login',
@@ -72,6 +95,8 @@ export default {
     }
 
     return {
+      redirect: '',
+      otherQuery: '',
       form: {
         username: '',
         password: ''
@@ -82,6 +107,18 @@ export default {
         ],
         password: [{ required: true, validator: validatePass, trigger: 'blur' }]
       }
+    }
+  },
+  watch: {
+    $route: {
+      handler(route) {
+        const query = route.query
+        if (query) {
+          this.redirect = query.redirect
+          this.otherQuery = getOtherQuery(query)
+        }
+      },
+      immediate: true
     }
   },
   methods: {
@@ -100,8 +137,19 @@ export default {
                 password: this.form.password
               }
             })
-            .then((res) => {
-              this.$message.success('登录成功')
+            .then(() => {
+              console.log(this.$auth)
+              if (this.$auth.loggedIn) {
+                this.$message.success('登录成功')
+                this.$router.replace({
+                  path: this.redirect || '/',
+                  query: this.otherQuery
+                })
+              } else {
+                this.$message.error('账号或密码错误')
+              }
+
+              // this.$router.push('/user/login')
               // if (res.status === 'success') {
               //   Cookies.set('token', res.data.token)
               //   this.$router.push('/')
@@ -131,6 +179,10 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+.title {
+  font-size: $size1;
+  text-align: center;
+}
 .bg-main {
   position: absolute;
   left: 0;

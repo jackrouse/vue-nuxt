@@ -1,7 +1,13 @@
 <template>
   <transition name="el-fade-in-linear">
     <div v-show="visible" class="backtop">
-      <el-button @click="backTop" type="primary">返回顶部</el-button>
+      <el-button
+        @click="backTop"
+        type="primary"
+        icon="el-icon-arrow-up"
+        plain
+        circle
+      ></el-button>
     </div>
   </transition>
 </template>
@@ -50,5 +56,6 @@ export default {
   position: fixed;
   right: 10px;
   bottom: 10px;
+  opacity: 0.6;
 }
 </style>

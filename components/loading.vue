@@ -1,13 +1,13 @@
 <template>
   <div v-if="loading" class="loading-page">
-    <!-- <div class="lds-ring">
+    <div class="lds-ring">
       <div></div>
       <div></div>
       <div></div>
       <div></div>
-    </div> -->
-    <img class="loading-img" src="~/assets/images/loading.svg" alt="" />
-    <!-- <div class="loading-text">加载中...</div> -->
+    </div>
+    <!-- <img class="loading-img" src="~/assets/images/loading.svg" alt="" /> -->
+    <div class="loading-text">加载中...</div>
   </div>
 </template>
 
